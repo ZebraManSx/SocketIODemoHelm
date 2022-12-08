@@ -1,0 +1,132 @@
+base-chart:
+  image:
+    repository: "registry.gitlab.com/next-db-community/next-icd/socketiodemo"
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "1.1.0"
+    imagePullSecrets: "gitlab-cr"
+
+  deployment:
+    labels: {}
+      # app:  webstatic-cp
+      # tier: frontend
+    containerPort: 3000
+    replicas: 1
+    env: []
+    args: []
+    volumeMounts: []
+    volumes: []
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 200m
+      limits:
+        memory: 1Gi
+        cpu: 1000m
+
+  labelAppNameOverride: ""
+  serviceNameOverride: ""
+
+  service:
+    annotations: {}
+      # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    # "ClusterIP" | "LoadBalancer"
+    type: "ClusterIP"
+    # Can set when service type is LoadBalancer
+    loadBalancerIP: ""
+
+  security:
+    runAsUser: "" # UserID UID
+    allowPrivilegeEscalation: "" # Set true or false
+    automountServiceAccountToken: ""
+
+  pvc:
+    enable: false
+    # resources:
+    #   requests:
+    #     storage: 10Gi
+    # storageClassName: nfs-client
+
+  configMaps: []
+    # - name: name-of-config
+    #   data:
+    #     somefile.json: |
+    #       {
+    #         name: test,
+    #         otherkey: othervalue
+    #       }
+
+  ## Config-file (optional)
+  ## Setfile from helm option command
+  ## Support only one file config
+  configmapFiles: []
+  # - name: ""
+  #   namefile: ""
+  #   data: "" 
+
+  ## Example data
+  ## SPECIAL_LEVEL: very
+  ## SPECIAL_TYPE: charm
+  ## Can set from helm argument --set-file configmapEnv[0].data=path/to/env/file
+  configmapEnv: []
+    # - name: name-of-env
+    #   data: ""
+
+  hpa:
+    enable: false
+    # minReplicas: 1
+    # maxReplicas: 3
+
+  gateway:
+    enable: false
+    selector:
+      gateway: c01-ingressgateway
+    hosts:
+      - "*"
+
+  virtualService:
+    enable: false
+    corsPolicy:
+      # allowCredentials: true
+      # allowHeaders:
+      # - Origin
+      # - X-Requested-With
+      # - Content-Type
+      # - Accept
+      # - Authorization
+      # allowMethods:
+      # - GET
+      # - POST
+      # - PATCH
+      # - PUT
+      # - DELETE
+      # allowOrigins:
+      # - regex: ^.*(ais.th|ais.co.th)$
+    uriPrefix:
+    # - prefix: /
+    rewrite:
+      # uri: /rewriteUri
+    headers:
+      # response:
+      #   add:
+      #     Content-Security-Policy: default-src 'self'
+      #     Strict-Transport-Security: max-age=63072000; includeSubdomains; preload
+      #     X-Content-Type-Options: nosniff
+      #     X-XSS-Protection: 1; mode=block
+      #     x-frame-options: sameorigin
+
+  ingress:
+    enabled: false
+    className: "nginx"
+    annotations:
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: 
+        paths:
+          - path: /
+            pathType: Prefix
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local

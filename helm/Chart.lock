@@ -1,0 +1,6 @@
+dependencies:
+- name: base-chart
+  repository: https://gitlab.com/api/v4/projects/39720266/packages/helm/stable
+  version: 1.5.0
+digest: sha256:ee02cf3d4387951f9aac1dcf98dd47c30e470d6c546d773cff4d1d902ea5ea8a
+generated: "2022-11-25T14:19:41.727847578+07:00"
